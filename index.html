@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Feliz Cumpleaños Melany 🎉</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#contenido {
+  position: relative;
+  z-index: 2;
+  margin-top: 100px;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 45px;
+  color: #00c6ff;
+}
+
+#texto {
+  font-size: 20px;
+  margin-top: 20px;
+  white-space: pre-line;
+}
+
+.btn {
+  margin-top: 30px;
+  padding: 15px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 20px;
+  background: #00c6ff;
+  color: white;
+  cursor: pointer;
+}
+
+#final {
+  display: none;
+  font-size: 22px;
+  margin-top: 25px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div id="contenido">
+  <h1>🎉 Feliz Cumpleaños Melany 🎉</h1>
+
+  <p id="texto"></p>
+
+  <button class="btn" onclick="sorpresa()">Toca aquí 🎁</button>
+
+  <div id="final">
+    🎂 Hoy es tu día 🎉<br><br>
+    Espero que sonrías mucho,<br>
+    que te rías sin parar 😄<br>
+    y que cada momento de hoy<br>
+    esté lleno de cosas bonitas ✨<br><br>
+    Que este nuevo año te traiga<br>
+    muchas alegrías,<br>
+    nuevas experiencias,<br>
+    y momentos que valgan la pena recordar 💫<br><br>
+    Sigue siendo esa persona tan divertida,<br>
+    con esa forma única de ser 😌<br><br>
+    Disfruta tu día al máximo 🎈🎉
+  </div>
+</div>
+
+<!-- 🎵 música -->
+<audio autoplay loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🎊 confeti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let estrellas = [];
+for (let i = 0; i < 100; i++) {
+  estrellas.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2
+  });
+}
+
+function dibujar() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "white";
+  estrellas.forEach(e => {
+    ctx.fillRect(e.x, e.y, e.size, e.size);
+    e.y += 0.3;
+    if (e.y > canvas.height) e.y = 0;
+  });
+  requestAnimationFrame(dibujar);
+}
+dibujar();
+
+let mensaje = "Hoy es un día especial 🎉\nPorque alguien muy importante cumple años 🎂\nY merece pasarla increíble 😄\n\nQue este día esté lleno de sonrisas,\nde momentos bonitos,\ny de todo lo que te haga feliz ✨";
+let i = 0;
+
+function escribir() {
+  if (i < mensaje.length) {
+    document.getElementById("texto").innerHTML += mensaje.charAt(i);
+    i++;
+    setTimeout(escribir, 40);
+  }
+}
+escribir();
+
+function sorpresa() {
+  document.getElementById("final").style.display = "block";
+
+  confetti({
+    particleCount: 250,
+    spread: 100,
+    origin: { y: 0.6 }
+  });
+}
+</script>
+
+</body>
+</html>
