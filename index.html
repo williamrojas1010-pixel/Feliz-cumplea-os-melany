@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melany ✨</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  color: white;
+}
+
+/* VIDEO */
+video {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+  z-index: -2;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index: -1;
+}
+
+/* BARRA PROGRESO */
+.progress {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  display: flex;
+  gap: 5px;
+}
+
+.progress div {
+  flex: 1;
+  background: rgba(255,255,255,0.3);
+}
+
+.progress div span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: white;
+}
+
+/* PANTALLAS */
+.story {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.story.active {
+  opacity: 1;
+}
+
+/* TEXTO */
+h1 {
+  font-size: 42px;
+}
+
+p {
+  font-size: 20px;
+  margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<video autoplay muted loop>
+  <source src="video.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<!-- BARRA -->
+<div class="progress">
+  <div><span id="bar1"></span></div>
+  <div><span id="bar2"></span></div>
+  <div><span id="bar3"></span></div>
+  <div><span id="bar4"></span></div>
+</div>
+
+<!-- STORIES -->
+<div class="story active" id="s1">
+  <h1>Melany ✨</h1>
+</div>
+
+<div class="story" id="s2">
+  <h1>🎉 Feliz cumpleaños</h1>
+  <p>Hoy es tu día</p>
+</div>
+
+<div class="story" id="s3">
+  <p>Que sonrías mucho 😄<br>y que todo lo bonito llegue a ti ✨</p>
+</div>
+
+<div class="story" id="s4">
+  <h1>Disfruta tu día 💫</h1>
+  <p>— William</p>
+</div>
+
+<audio id="musica" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let actual = 1;
+let total = 4;
+let tiempo = 3000;
+
+// iniciar musica al primer toque
+document.body.addEventListener("click", () => {
+  let audio = document.getElementById("musica");
+  audio.play();
+}, { once: true });
+
+function mostrar(n){
+  document.querySelectorAll(".story").forEach(s => s.classList.remove("active"));
+  document.getElementById("s"+n).classList.add("active");
+  llenarBarra(n);
+}
+
+function llenarBarra(n){
+  let bar = document.getElementById("bar"+n);
+  bar.style.transition = tiempo + "ms linear";
+  bar.style.width = "100%";
+}
+
+function siguiente(){
+  if(actual < total){
+    actual++;
+    mostrar(actual);
+    setTimeout(siguiente, tiempo);
+  }
+}
+
+// inicio automático
+llenarBarra(1);
+setTimeout(siguiente, tiempo);
+
+// tocar para avanzar
+document.addEventListener("click", () => {
+  if(actual < total){
+    actual++;
+    mostrar(actual);
+  }
+});
+</script>
+
+</body>
+</html>
