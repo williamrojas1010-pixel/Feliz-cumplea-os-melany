@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melany ✨</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+  color: white;
+  touch-action: pan-y;
+}
+
+/* VIDEO */
+video {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.9);
+  z-index: -3;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+  z-index: -2;
+}
+
+/* PROGRESS */
+.progress {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  display: flex;
+  gap: 6px;
+}
+
+.progress div {
+  flex: 1;
+  background: rgba(255,255,255,0.3);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: white;
+}
+
+/* CONTENEDOR SLIDE */
+.wrapper {
+  display: flex;
+  width: 400%;
+  height: 100vh;
+  transition: transform 0.5s ease;
+}
+
+/* STORY */
+.story {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* CARD EFECTO APPLE */
+.card {
+  padding: 30px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 30px rgba(0,0,0,0.3);
+}
+
+/* TEXTOS */
+h1 { font-size: 40px; margin: 0; }
+p { font-size: 18px; margin-top: 10px; }
+</style>
+</head>
+
+<body>
+
+<video autoplay muted loop>
+  <source src="video.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<!-- PROGRESS -->
+<div class="progress">
+  <div><span id="p1"></span></div>
+  <div><span id="p2"></span></div>
+  <div><span id="p3"></span></div>
+  <div><span id="p4"></span></div>
+</div>
+
+<!-- WRAPPER -->
+<div class="wrapper" id="wrap">
+
+  <div class="story">
+    <div class="card">
+      <h1>Melany ✨</h1>
+    </div>
+  </div>
+
+  <div class="story">
+    <div class="card">
+      <h1>🎉 Feliz cumpleaños</h1>
+      <p>Hoy es tu día</p>
+    </div>
+  </div>
+
+  <div class="story">
+    <div class="card">
+      <p>Que sonrías mucho 😄<br>que todo te salga bonito ✨<br>y vivas momentos increíbles 💫</p>
+    </div>
+  </div>
+
+  <div class="story">
+    <div class="card">
+      <h1>Disfruta tu día 💖</h1>
+      <p>— William</p>
+    </div>
+  </div>
+
+</div>
+
+<audio id="musica" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let index = 0;
+let total = 4;
+let startX = 0;
+
+// MUSICA
+document.body.addEventListener("click", ()=>{
+  let a=document.getElementById("musica");
+  a.volume=0;
+  a.play();
+
+  let v=0;
+  let f=setInterval(()=>{
+    if(v<1){v+=0.05;a.volume=v;}
+    else clearInterval(f);
+  },100);
+},{once:true});
+
+// SLIDE
+function update(){
+  document.getElementById("wrap").style.transform = `translateX(-${index*100}%)`;
+  document.querySelectorAll(".progress span").forEach((b,i)=>{
+    b.style.width = i<=index ? "100%" : "0%";
+  });
+
+  if(navigator.vibrate) navigator.vibrate(30);
+}
+
+// TOUCH
+document.addEventListener("touchstart",e=>{
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend",e=>{
+  let endX = e.changedTouches[0].clientX;
+  let diff = startX - endX;
+
+  if(diff > 50 && index < total-1){
+    index++;
+    update();
+  }
+  else if(diff < -50 && index > 0){
+    index--;
+    update();
+  }
+});
+</script>
+
+</body>
+</html>
